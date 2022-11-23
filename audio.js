@@ -53,19 +53,62 @@ function keypress_audio(e){
         case "q":
             PlayAudio(440);
             break;
+        case "2":
+            PlayAudio(466);
+            break;
         case "w":
             PlayAudio(494);
             break;
         case "e":
             PlayAudio(523);
             break;
+        case "4":
+            PlayAudio(554);
+            break;
         case "r":
             PlayAudio(587);
             break;
         case "5":
             PlayAudio(622);
+            break;
         case "t":
             PlayAudio(659);
+            break;
+        case "y":
+            PlayAudio(698);
+            break;
+        case "7":
+            PlayAudio(740);
+            break;
+        case "u":
+            PlayAudio(784);
+            break;
+        case "8":
+            PlayAudio(830);
+            break;
+        case "i":
+            PlayAudio(880);
+            break;
+        case "9":
+            PlayAudio(932);
+            break;
+        case "o":
+            PlayAudio(988);
+            break;
+        case "p":
+            PlayAudio(1046);
+            break;
+        case "-":
+            PlayAudio(1109);
+            break;
+        case "@":
+            PlayAudio(1174);
+            break;
+        case "^":
+            PlayAudio(1244);
+            break;
+        case "[":
+            PlayAudio(1318);
             break;
         default:
             console.log("無効な入力です")
