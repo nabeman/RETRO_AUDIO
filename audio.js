@@ -1,5 +1,7 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 const ctx = new AudioContext();
+const gainNode = ctx.createGain();
+gainNode.gain.value = 0.3;
 let oscillator;
 let isPlaying = false;
 
@@ -26,7 +28,7 @@ function PlayAudio(scale){
     oscillator = ctx.createOscillator();
     oscillator.type = "square";
     oscillator.frequency.setValueAtTime(scale, ctx.currentTime);
-    oscillator.connect(ctx.destination);
+    oscillator.connect(gainNode).connect(ctx.destination);
     oscillator.start();
     isPlaying = true;
     console.log("再生ボタンが推されました");
