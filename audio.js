@@ -6,11 +6,11 @@ let oscillator;
 let isPlaying = false;
 let downScale = false;
 
-function PlayAudio(scale){
-    if(isPlaying){
-        return;
-    }
+let oscillator2;
+let dualPlaying = false;
 
+
+function PlayAudio(scale){
     oscillator = ctx.createOscillator();
     oscillator.type = "square";
     oscillator.frequency.setValueAtTime(scale, ctx.currentTime);
@@ -24,13 +24,36 @@ function StopAudio(){
     isPlaying = false;
 }
 
+function dualAudio(scale){
+    if(dualPlaying){
+        StopdualAudio();
+    }
+
+    oscillator2 = ctx.createOscillator();
+    oscillator2.type = "square";
+    oscillator2.frequency.setValueAtTime(scale, ctx.currentTime);
+    oscillator2.connect(gainNode).connect(ctx.destination);
+    oscillator2.start();
+    dualPlaying = true;
+}
+
+function StopdualAudio(){
+    oscillator2?.stop();
+    dualPlaying = false;
+}
+
 document.addEventListener("keypress",keypress_audio);
 
 
 function keypress_audio(e){
     if(isPlaying && e.key != " "){
-        StopAudio();
+       StopAudio();
+    }else if(dualPlaying && e.key == "z"){
+        StopdualAudio();
     }
+    // if(dualPlaying && e.key != " "){
+    //     StopdualAudio();
+    // }
 
     if(!downScale){
         switch(e.key){
@@ -101,6 +124,9 @@ function keypress_audio(e){
                 break;
             case " ":
                 downScale = !downScale;
+                break;
+            case "a":
+                dualAudio(415);
                 break;
             default:
                 console.log("無効な入力です")
