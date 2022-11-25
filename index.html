@@ -4,30 +4,16 @@
         <title>8-bit Music</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <div id="key_input">
-            <h1>最初のdivです</h1>
-            <button id="start_key">入力を受け付ける</button>
-            <div>
-                <button id="playA4">ラ</button>
-                <button id="playA#4">ラ#</button>
-                <button id="playB4">シ</button>
-                <button id="playC5">ド</button>
-                <button id="playC#5">ド#</button>
-                <button id="playD5">レ</button>
-                <button id="playD#5">レ#</button>
-                <button id="playE5">ミ</button>
-                <button id="playF5">ファ</button>
-                <button id="playF#5">ファ#</button>
-                <button id="playG5">ソ</button>
-                <button id="playG#5">ソ#</button>
-                <button id="playA5">ラ</button>
-                <button id="playA#5">ラ#</button>
-            </div>
-            <p>
-                <button id="stop">音を止める</button>
-            </p>
+        <div>
+            <h1>Web Audio APIでピアノ的なやつ</h1>
+            <p><span class="explain">1～^</span> と <span class="explain">q～[</span>まで音が鳴ります</p>
+            <p>eがC5、pがC6です。spaceキーを押すとqがC3、iがC4に変わります。</p>
+            <p><span class="explain">1～^</span> と <span class="explain">q～[</span>以外のキーを押すと止まります。</p>
+            <p>aキーからも音が出ます</p>
+            <p>aキーから出る音はzキーで止まります</p>
         </div>
         <script src="main.js"></script>
         <script src="audio.js"></script>
