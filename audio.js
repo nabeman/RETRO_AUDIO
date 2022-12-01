@@ -51,9 +51,6 @@ function keypress_audio(e){
     }else if(dualPlaying && e.key == "z"){
         StopdualAudio();
     }
-    // if(dualPlaying && e.key != " "){
-    //     StopdualAudio();
-    // }
 
     if(!downScale){
         switch(e.key){
@@ -203,4 +200,29 @@ function keypress_audio(e){
                 console.log("無効な入力です")
         }
     }
+}
+
+function inRowAudio(){
+    const startTime = new Date().getTime();
+    let startAudio = true;
+    let boolaudio = false
+    while(true){
+        let atTime = new Date().getTime();
+        if(startAudio){
+            PlayAudio(523.2);
+            startAudio = false;
+            console.log("1th audio");
+        }else if(!boolaudio && atTime-startTime > 1000){
+            StopAudio();
+            PlayAudio(1046.5);
+            boolaudio = true;
+            console.log("2nd audio");
+        }
+
+        if(boolaudio && atTime - startTime > 2000){
+            StopAudio();
+            break;
+        }
+    }
+    console.log("finish while loop")
 }
