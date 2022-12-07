@@ -9,7 +9,6 @@ let downScale = false;
 let oscillator2;
 let dualPlaying = false;
 
-
 function PlayAudio(scale){
     oscillator = ctx.createOscillator();
     oscillator.type = "square";
@@ -47,7 +46,7 @@ document.addEventListener("keypress",keypress_audio);
 
 function keypress_audio(e){
     if(isPlaying && e.key != " "){
-       StopAudio();
+        StopAudio();
     }else if(dualPlaying && e.key == "z"){
         StopdualAudio();
     }
