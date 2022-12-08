@@ -1,58 +1,6 @@
-window.AudioContext = window.AudioContext || window.webkitAudioContext;
-const ctx = new AudioContext();
-const gainNode = ctx.createGain();
-gainNode.gain.value = 0.3;
-let oscillator;
-let isPlaying = false;
-let downScale = false;
-
-let oscillator2;
-let dualPlaying = false;
-
-function PlayAudio(scale){
-    oscillator = ctx.createOscillator();
-    oscillator.type = "square";
-    oscillator.frequency.setValueAtTime(scale, ctx.currentTime);
-    oscillator.connect(gainNode).connect(ctx.destination);
-    oscillator.start();
-    isPlaying = true;
-}
-
-function StopAudio(){
-    oscillator?.stop();
-    isPlaying = false;
-}
-
-function dualAudio(scale){
-    if(dualPlaying){
-        StopdualAudio();
-    }
-
-    oscillator2 = ctx.createOscillator();
-    oscillator2.type = "square";
-    oscillator2.frequency.setValueAtTime(scale, ctx.currentTime);
-    oscillator2.connect(gainNode).connect(ctx.destination);
-    oscillator2.start();
-    dualPlaying = true;
-}
-
-function StopdualAudio(){
-    oscillator2?.stop();
-    dualPlaying = false;
-}
-
-document.addEventListener("keypress",keypress_audio);
-
-
-function keypress_audio(e){
-    if(isPlaying && e.key != " "){
-        StopAudio();
-    }else if(dualPlaying && e.key == "z"){
-        StopdualAudio();
-    }
-
+function key_audio(key, PlayAudio, downScale){
     if(!downScale){
-        switch(e.key){
+        switch(key){
             case "1":
                 PlayAudio(415);
                 break;
@@ -129,7 +77,7 @@ function keypress_audio(e){
         }
     }
     else{
-        switch(e.key){
+        switch(key){
             case "q":
                 PlayAudio(130.8); //ド3 C3
                 console.log("ド3");
@@ -199,29 +147,4 @@ function keypress_audio(e){
                 console.log("無効な入力です")
         }
     }
-}
-
-function inRowAudio(){
-    const startTime = new Date().getTime();
-    let startAudio = true;
-    let boolaudio = false
-    while(true){
-        let atTime = new Date().getTime();
-        if(startAudio){
-            PlayAudio(523.2);
-            startAudio = false;
-            console.log("1th audio");
-        }else if(!boolaudio && atTime-startTime > 1000){
-            StopAudio();
-            PlayAudio(1046.5);
-            boolaudio = true;
-            console.log("2nd audio");
-        }
-
-        if(boolaudio && atTime - startTime > 2000){
-            StopAudio();
-            break;
-        }
-    }
-    console.log("finish while loop")
 }
