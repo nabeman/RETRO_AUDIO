@@ -10,7 +10,8 @@ const app = createApp({
             isPlaying: false,
             oscillator: null,
             downScale: false,
-            prep: false
+            prep: false,
+            nowkey: "",
         }
     },
     methods:{
@@ -27,11 +28,16 @@ const app = createApp({
             this.isPlaying = false;
         },
         keydown_audio(event){ //keyが押されたときに実行
-            if(this.isPlaying) return;
+            if(this.isPlaying && this.nowkey != event.key){
+                this.StopAudio();
+            }else if(this.isPlaying && this.nowkey == event.key){
+                return;
+            }
             key_audio(event.key, this.PlayAudio, this.downScale);
+            this.nowkey = event.key
         },
-        keyup_audio(){
-            if(this.isPlaying){ //keyが離れた時に実行
+        keyup_audio(event){
+            if(this.isPlaying && event.key == this.nowkey){ //keyが離れた時に実行
                 this.StopAudio();
             }
         },
