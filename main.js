@@ -7,11 +7,12 @@ gainNode.gain.value = 0.3;
 const app = createApp({
     data(){
         return{
-            isPlaying: false,
-            oscillator: null,
-            downScale: false,
-            prep: false,
+            isPlaying: false, //演奏中の判定
+            oscillator: null, 
+            downScale: false, //オクターブ調整
+            prep: false, //key bool
             nowkey: "",
+            button_state: "start", //button text
         }
     },
     methods:{
@@ -41,16 +42,18 @@ const app = createApp({
                 this.StopAudio();
             }
         },
-        prep_audio(){
+        toggle_audio(){
             if(!this.prep){
                 document.addEventListener("keydown", this.keydown_audio, false);
                 document.addEventListener("keyup", this.keyup_audio, false);
                 this.prep = true;
+                this.button_state = "stop";
                 console.log("準備が完了しました")
             }else{
                 document.removeEventListener("keydown", this.keydown_audio, false);
                 document.removeEventListener("keyup", this.keyup_audio, false);
                 this.prep = false;
+                this.button_state = "start";
                 console.log("演奏準備を取り消しました")
             }
         }

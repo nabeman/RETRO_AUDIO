@@ -14,7 +14,7 @@
             <p><span class="explain">1～^</span> と <span class="explain">q～[</span>以外のキーを押すと止まります。</p>
             <p>aキーからも音が出ます</p>
             <p>aキーから出る音はzキーで止まります</p>
-            <button @click="prep_audio">start</button>
+            <button @click="toggle_audio">{{ button_state }}</button>
         </div>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script src="main.js"></script>
