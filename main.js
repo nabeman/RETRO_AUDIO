@@ -34,6 +34,7 @@ const app = createApp({
             this.isPlaying = false;
         },
         keydown_audio(event){ //keyが押されたときに実行 音を鳴らす
+            if(event.key == " ") this.downScale = !this.downScale;
             if(this.isPlaying && this.nowkey != event.key){ //事前に演奏している音の処理
                 let endTime = performance.now(); //演奏時間
                 this.audioarray.push(new AudioObject(endTime - this.time, this.downScale, this.nowkey));
