@@ -1,4 +1,5 @@
 const { createApp } = Vue;
+import { AudioObject } from "./audioobject";
 
 const ctx = new AudioContext();
 const gainNode = ctx.createGain();
@@ -13,6 +14,8 @@ const app = createApp({
             prep: false, //key bool
             nowkey: "",
             button_state: "start", //button text
+            time: 0,
+            audioarray: [],
         }
     },
     methods:{
@@ -28,17 +31,20 @@ const app = createApp({
             this.oscillator?.stop(); //oscillator 止める
             this.isPlaying = false;
         },
-        keydown_audio(event){ //keyが押されたときに実行
-            if(this.isPlaying && this.nowkey != event.key){
+        keydown_audio(event){ //keyが押されたときに実行 音を鳴らす
+            if(this.isPlaying && this.nowkey != event.key){ //事前に演奏している音の処理
                 this.StopAudio();
             }else if(this.isPlaying && this.nowkey == event.key){
                 return;
             }
-            key_audio(event.key, this.PlayAudio, this.downScale);
-            this.nowkey = event.key
+            key_audio(event.key, this.PlayAudio, this.downScale); //音を鳴らす
+            this.nowkey = event.key;
+            this.time = performance.now();
         },
         keyup_audio(event){
             if(this.isPlaying && event.key == this.nowkey){ //keyが離れた時に実行
+                let endTime = performance.now(); //演奏時間
+                this.audioarray.push(AudioObject(endTime - start, this.downScale, this.nowkey));
                 this.StopAudio();
             }
         },
@@ -55,6 +61,13 @@ const app = createApp({
                 this.prep = false;
                 this.button_state = "start";
                 console.log("演奏準備を取り消しました")
+            }
+        },
+        PlayBack(){
+            for(let i = 0; i < this.audioarray.length - 1; i++){
+                key_audio(this.audioarray[i].key, this.PlayAudio, this.audioarray[i].boardstate);
+
+                this.StopAudio();
             }
         }
     }
