@@ -67,7 +67,6 @@ function key_audio(key, PlayAudio, downScale){
                 PlayAudio(1318.5); //ミ6 E6
                 break;
             case " ":
-                downScale = !downScale;
                 break;
             case "a":
                 dualAudio(415);
@@ -141,7 +140,6 @@ function key_audio(key, PlayAudio, downScale){
                 PlayAudio(392);
                 break;
             case " ":
-                downScale = !downScale;
                 break;
             default:
                 console.log("無効な入力です")
