@@ -1,4 +1,4 @@
-export class AudioObject{
+class AudioObject{
     time;
     boardstate; //オクターブ情報
     key;

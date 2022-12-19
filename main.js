@@ -1,5 +1,5 @@
 const { createApp } = Vue;
-import { AudioObject } from "./audioobject";
+// import { AudioObject } from ;
 
 const ctx = new AudioContext();
 const gainNode = ctx.createGain();
@@ -16,6 +16,8 @@ const app = createApp({
             button_state: "start", //button text
             time: 0,
             audioarray: [],
+            index: 0,
+            len : 0,
         }
     },
     methods:{
@@ -33,6 +35,9 @@ const app = createApp({
         },
         keydown_audio(event){ //keyが押されたときに実行 音を鳴らす
             if(this.isPlaying && this.nowkey != event.key){ //事前に演奏している音の処理
+                let endTime = performance.now(); //演奏時間
+                this.audioarray.push(new AudioObject(endTime - this.time, this.downScale, this.nowkey));
+                this.len = this.audioarray.length;
                 this.StopAudio();
             }else if(this.isPlaying && this.nowkey == event.key){
                 return;
@@ -44,7 +49,8 @@ const app = createApp({
         keyup_audio(event){
             if(this.isPlaying && event.key == this.nowkey){ //keyが離れた時に実行
                 let endTime = performance.now(); //演奏時間
-                this.audioarray.push(AudioObject(endTime - start, this.downScale, this.nowkey));
+                this.audioarray.push(new AudioObject(endTime - this.time, this.downScale, this.nowkey));
+                this.len = this.audioarray.length;
                 this.StopAudio();
             }
         },
@@ -64,11 +70,18 @@ const app = createApp({
             }
         },
         PlayBack(){
-            for(let i = 0; i < this.audioarray.length - 1; i++){
-                key_audio(this.audioarray[i].key, this.PlayAudio, this.audioarray[i].boardstate);
-
-                this.StopAudio();
-            }
+            let i = this.index;
+            let l = this.len;
+            this.index++;
+            let SA = this.StopAudio;
+            let PB = this.PlayBack;
+            key_audio(this.audioarray[i].key, this.PlayAudio, this.audioarray[i].boardstate);
+            setTimeout(function(){
+                SA();
+                if(i < l-1){
+                    PB();
+                }
+            },this.audioarray[i].time);
         }
     }
 })

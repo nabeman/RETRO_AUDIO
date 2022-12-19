@@ -15,8 +15,10 @@
             <p>aキーからも音が出ます</p>
             <p>aキーから出る音はzキーで止まります</p>
             <button @click="toggle_audio">{{ button_state }}</button>
+            <button @click="PlayBack">PlayBack</button>
         </div>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="audioobject.js"></script>
         <script src="main.js"></script>
         <script src="keyaudio.js"></script>
     </body>
