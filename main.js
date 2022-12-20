@@ -61,6 +61,8 @@ const app = createApp({
                 document.addEventListener("keyup", this.keyup_audio, false);
                 this.prep = true;
                 this.button_state = "stop";
+                this.audioarray = [];
+                this.index = 0;
                 console.log("準備が完了しました")
             }else{
                 document.removeEventListener("keydown", this.keydown_audio, false);
@@ -82,7 +84,8 @@ const app = createApp({
                 if(i < l-1){
                     PB();
                 }
-            },this.audioarray[i].time);
+            },this.audioarray[i].time+50);
+            // if(this.index == audioarray.length) this.index = 0;
         }
     }
 })
