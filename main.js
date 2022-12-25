@@ -1,5 +1,4 @@
 const { createApp } = Vue;
-// import { AudioObject } from ;
 
 const ctx = new AudioContext();
 const gainNode = ctx.createGain();
@@ -49,9 +48,10 @@ const app = createApp({
         },
         keyup_audio(event){
             if(this.isPlaying && event.key == this.nowkey){ //keyが離れた時に実行
-                let endTime = performance.now(); //演奏時間
-                this.audioarray.push(new AudioObject(endTime - this.time, this.downScale, this.nowkey));
+                let endTime = performance.now() - this.time; //演奏時間
+                this.audioarray.push(new AudioObject(endTime, this.downScale, this.nowkey));
                 this.len = this.audioarray.length;
+                audioUI("A4", endTime / 60);
                 this.StopAudio();
             }
         },
