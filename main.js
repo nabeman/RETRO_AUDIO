@@ -38,12 +38,13 @@ const app = createApp({
             if(this.isPlaying && this.nowkey != event.key){ //事前に演奏している音の処理
                 let endTime = performance.now(); //演奏時間
                 this.audioarray.push(new AudioObject(endTime - this.time, this.downScale, this.nowkey));
-                this.len = this.audioarray.length;
+                this.len = this.audioarray.length; 
                 this.StopAudio();
             }else if(this.isPlaying && this.nowkey == event.key){
                 return;
             }
-            key_audio(event.key, this.PlayAudio, this.downScale); //音を鳴らす
+            scale = give_scale(event.key, this.downScale);
+            this.PlayAudio(scale); //音を鳴らす
             this.nowkey = event.key;
             this.time = performance.now();
         },

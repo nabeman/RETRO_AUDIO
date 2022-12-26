@@ -1,148 +1,108 @@
-function key_audio(key, PlayAudio, downScale){
+function give_scale(key, downScale){
     if(!downScale){
         switch(key){
             case "1":
-                PlayAudio(415);
-                break;
+                return 415;
             case "q":
-                PlayAudio(440);
-                break;
+                return 440;
             case "2":
-                PlayAudio(466);
-                break;
+                return 466;
             case "w":
-                PlayAudio(494);
-                break;
+                return 494;
             case "e":
-                PlayAudio(523.2); //ド5 C5
                 console.log("ド5");
-                break;
+                return 523.2; //ド5 C5
             case "4":
-                PlayAudio(554.3);
-                break;
+                return 554.3;
             case "r":
-                PlayAudio(587.3);
-                break;
+                return 587.3;
             case "5":
-                PlayAudio(622.2);
-                break;
+                return 622.2;
             case "t":
-                PlayAudio(659.2);
-                break;
+                return 659.2;
             case "y":
-                PlayAudio(698.5);
-                break;
+                return 698.5;
             case "7":
-                PlayAudio(740);
-                break;
+                return 740;
             case "u":
-                PlayAudio(784);
-                break;
+                return 784;
             case "8":
-                PlayAudio(830.6);
-                break;
+                return 830.6;
             case "i":
-                PlayAudio(880);
-                break;
+                return 880;
             case "9":
-                PlayAudio(932.3);
-                break;
+                return 932.3;
             case "o":
-                PlayAudio(987.8);
-                break;
-            case "p":
-                PlayAudio(1046.5); //ド6 C6
-                console.log("ド6");
-                break;
+                return 987.8;
+            case "p":                 
+                console.log("ド6");//ド6 C6
+                return 1046.5;
             case "-":
-                PlayAudio(1108.7); 
-                break;
+                return 1108.7;
             case "@":
-                PlayAudio(1174.6);
-                break;
+                return 1174.6;
             case "^":
-                PlayAudio(1244.5);
-                break;
+                return 1244.5;
             case "[":
-                PlayAudio(1318.5); //ミ6 E6
-                break;
+                return 1318.5;
             case " ":
-                break;
+                return 0;
             case "a":
-                dualAudio(415);
-                break;
+                return 415; //for dual
             default:
                 console.log("無効な入力です")
+                return 0;
         }
     }
     else{
         switch(key){
             case "q":
-                PlayAudio(130.8); //ド3 C3
-                console.log("ド3");
-                break;
+                console.log("ド3");//ド3 C3
+                return 130.8;
             case "2":
-                PlayAudio(138.6);
-                break;
+                return 138.6;
             case "w":
-                PlayAudio(146.8);
-                break;
+                return 146.8;
             case "3":
-                PlayAudio(155.5);
-                break;
+                return 155.5;
             case "e":
-                PlayAudio(164.8);
-                break;
+                return 164.8;
             case "r":
-                PlayAudio(174.6);
-                break;
+                return 174.6;
             case "5":
-                PlayAudio(185);
-                break;
+                return 185;
             case "t":
-                PlayAudio(196);
-                break;
+                return 196;
             case "6":    
-                PlayAudio(207.6);
-                break;
+                return 207.6;
             case "y":
-                PlayAudio(220);
-                break;
+                return 220;
             case "7":
-                PlayAudio(233);
-                break;
+                return 233;
             case "u":
-                PlayAudio(247);
-                break;
+                return 247;
             case "i":
-                PlayAudio(261.6); //ド4 C4
-                console.log("ド4");
-                break;
+                console.log("ド4");//ド4 C4
+                return 261.6;
             case "9":
-                PlayAudio(277);
-                break;
+                return 277;
             case "o":
-                PlayAudio(293.6);
-                break;
+                return 293.6;
             case "0":
-                PlayAudio(311);
-                break;
+                return 311;
             case "p":
-                PlayAudio(329.6);
-                break;
+                return 329.6;
             case "@":
-                PlayAudio(349);
-                break;
+                return 349;
             case "^":
-                PlayAudio(370);
-                break;
+                return 370;
             case "[":
-                PlayAudio(392);
-                break;
+                return 392;
             case " ":
-                break;
+                return 0;
             default:
-                console.log("無効な入力です")
+                console.log("無効な入力です");
+                return 0;
         }
     }
 }
