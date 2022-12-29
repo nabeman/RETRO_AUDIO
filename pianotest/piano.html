@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ピアノUI</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="piano.css" /> 
+    </head>
+    <body>
+        <div id="piano">
+            <white-key @push-white-key="PushWhite" pianokey="C4"></white-key>
+            <white-key></white-key>
+            <white-key></white-key>
+        </div>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="piano.js"></script>
+    </body>
+</html>
