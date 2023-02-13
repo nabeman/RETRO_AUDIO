@@ -87,7 +87,11 @@ const app = createApp({
                 }
             },this.audioarray[i].time+50);
             // if(this.index == audioarray.length) this.index = 0;
-        }
+        },
+        ShowAudioObject(){
+            obj = this.audioarray.pop()
+            console.log(obj)
+        },
     }
 })
 

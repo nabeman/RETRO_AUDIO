@@ -4,7 +4,7 @@ class AudioObject{
     key;
 
     constructor(time, state, key){
-        this.time = time;
+        this.time = time; //演奏時間
         this.boardstate = state;
         this.key = key;
     }
