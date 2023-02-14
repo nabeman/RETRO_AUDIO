@@ -38,12 +38,8 @@ const app = createApp({
             if(event.key == " ") this.downScale = !this.downScale;
             if(this.isPlaying && this.nowkey != event.key){ //事前に演奏している音の処理
                 let endTime = performance.now(); //演奏時間
-                let obj = new AudioObject(endTime - this.time, this.downScale, this.nowkey)
-                console.log(obj);
-                let a=this.audioarray.push(obj);
-                console.log(a)
-                console.log(this.audioarray.length)
-                console.log(this.audioarray)
+                this.audioarray.push(new AudioObject(endTime - this.time, this.downScale, this.nowkey));
+                console.log(this.audioarray);
                 this.ShowAudioObject();
                 this.len = this.audioarray.length; 
                 this.StopAudio();
@@ -58,12 +54,8 @@ const app = createApp({
         keyup_audio(event){
             if(this.isPlaying && event.key == this.nowkey){ //keyが離れた時に実行
                 let endTime = performance.now() - this.time; //演奏時間
-                let obj = new AudioObject(endTime, this.downScale, this.nowkey)
-                console.log(obj);
-                let a = this.audioarray.push(obj)
-                console.log(a)
-                console.log(this.audioarray.length)
-                console.log(this.audioarray)
+                this.audioarray.push(new AudioObject(endTime, this.downScale, this.nowkey));
+                console.log(this.audioarray);
                 this.ShowAudioObject();
                 this.len = this.audioarray.length;
                 audioUI("A4", endTime / 60);
@@ -116,11 +108,6 @@ const app = createApp({
 
         },
     },
-    computed:{
-        audionewarray(){
-            return this.audioarray
-        },
-    }
 })
 
 app.mount('#main_div')
