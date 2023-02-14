@@ -105,7 +105,7 @@ const app = createApp({
         Reset(){
             this.allkeyinput = "";
             console.log(this.audioarray.length)
-
+            this.index = 0;
         },
     },
 })
