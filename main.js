@@ -17,6 +17,8 @@ const app = createApp({
             audioarray: [],
             index: 0,
             len : 0,
+            allkeyinput: "",
+            lenarray: [], //test
         }
     },
     methods:{
@@ -36,7 +38,13 @@ const app = createApp({
             if(event.key == " ") this.downScale = !this.downScale;
             if(this.isPlaying && this.nowkey != event.key){ //事前に演奏している音の処理
                 let endTime = performance.now(); //演奏時間
-                this.audioarray.push(new AudioObject(endTime - this.time, this.downScale, this.nowkey));
+                let obj = new AudioObject(endTime - this.time, this.downScale, this.nowkey)
+                console.log(obj);
+                let a=this.audioarray.push(obj);
+                console.log(a)
+                console.log(this.audioarray.length)
+                console.log(this.audioarray)
+                this.ShowAudioObject();
                 this.len = this.audioarray.length; 
                 this.StopAudio();
             }else if(this.isPlaying && this.nowkey == event.key){
@@ -50,7 +58,13 @@ const app = createApp({
         keyup_audio(event){
             if(this.isPlaying && event.key == this.nowkey){ //keyが離れた時に実行
                 let endTime = performance.now() - this.time; //演奏時間
-                this.audioarray.push(new AudioObject(endTime, this.downScale, this.nowkey));
+                let obj = new AudioObject(endTime, this.downScale, this.nowkey)
+                console.log(obj);
+                let a = this.audioarray.push(obj)
+                console.log(a)
+                console.log(this.audioarray.length)
+                console.log(this.audioarray)
+                this.ShowAudioObject();
                 this.len = this.audioarray.length;
                 audioUI("A4", endTime / 60);
                 this.StopAudio();
@@ -79,7 +93,8 @@ const app = createApp({
             this.index++;
             let SA = this.StopAudio;
             let PB = this.PlayBack;
-            key_audio(this.audioarray[i].key, this.PlayAudio, this.audioarray[i].boardstate);
+            let scale = give_scale(this.audioarray[i].key, this.audioarray[i].boardstate);
+            this.PlayAudio(scale)
             setTimeout(function(){
                 SA();
                 if(i < l-1){
@@ -89,8 +104,21 @@ const app = createApp({
             // if(this.index == audioarray.length) this.index = 0;
         },
         ShowAudioObject(){
-            obj = this.audioarray.pop()
-            console.log(obj)
+            let obj = this.audioarray.pop();
+            let time = obj.time
+            time = Math.floor(time*10)/10;
+            let objtext = `<br>${obj.key} ${obj.boardstate} ${time}ms<br>`;
+            this.allkeyinput = this.allkeyinput + objtext;
+        },
+        Reset(){
+            this.allkeyinput = "";
+            console.log(this.audioarray.length)
+
+        },
+    },
+    computed:{
+        audionewarray(){
+            return this.audioarray
         },
     }
 })

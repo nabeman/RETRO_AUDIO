@@ -15,6 +15,7 @@
             <p>休符の実装ができていないので、入力した音が連続で鳴ります。</p>
             <button @click="toggle_audio">{{ button_state }}</button>
             <button @click="PlayBack">PlayBack</button>
+            <button @click="Reset">Reset</button>
             <div class="audio_ui">
                 <div id="A4" class="pianokey">
                     A4
@@ -22,6 +23,17 @@
                 <div id="C4" class="pianokey">
                     C4
                 </div>
+            </div>
+            <div v-html="allkeyinput">
+
+            </div>
+            <!-- <div v-for="(i, index) in audionewarray" :key="index">
+                <p>time<input type="number" v-model="i.time"></p>
+                <p>state<input type="text" v-model="i.boardstate"></p>
+                <p>key<input type="text" v-model="i.key"></p>
+            </div> -->
+            <div v-for="(i, index) in lenarray" :key="index">
+                <p><input type="number" v-model="i"></p>
             </div>
         </div>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
