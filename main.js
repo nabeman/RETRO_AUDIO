@@ -38,7 +38,8 @@ const app = createApp({
             if(event.key == " ") this.downScale = !this.downScale;
             if(this.isPlaying && this.nowkey != event.key){ //事前に演奏している音の処理
                 let endTime = performance.now(); //演奏時間
-                this.audioarray.push(new AudioObject(endTime - this.time, this.downScale, this.nowkey));
+                let time = Math.floor((endTime - this.time)*10)/10;
+                this.audioarray.push(new AudioObject(time, this.downScale, this.nowkey));
                 console.log(this.audioarray);
                 //this.ShowAudioObject();
                 this.len = this.audioarray.length; 
@@ -53,7 +54,7 @@ const app = createApp({
         },
         keyup_audio(event){
             if(this.isPlaying && event.key == this.nowkey){ //keyが離れた時に実行
-                let endTime = performance.now() - this.time; //演奏時間
+                let endTime = Math.floor((performance.now() - this.time)*10)/10; //演奏時間
                 this.audioarray.push(new AudioObject(endTime, this.downScale, this.nowkey));
                 console.log(this.audioarray);
                 //this.ShowAudioObject();
@@ -94,13 +95,6 @@ const app = createApp({
                 }
             },this.audioarray[i].time+50);
             // if(this.index == audioarray.length) this.index = 0;
-        },
-        ShowAudioObject(){
-            let obj = this.audioarray.pop();
-            let time = obj.time
-            time = Math.floor(time*10)/10;
-            let objtext = `<br>${obj.key} ${obj.boardstate} ${time}ms<br>`;
-            this.allkeyinput = this.allkeyinput + objtext;
         },
         Reset(){
             this.allkeyinput = "";

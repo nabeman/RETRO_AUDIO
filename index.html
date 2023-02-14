@@ -30,6 +30,7 @@
 
             </div>
             <div v-for="(i, index) in audioarray" :key="index">
+                <h3>{{ index }}</h3>
                 <p>time<input type="number" v-model="i.time"></p>
                 <p>state<input type="text" v-model="i.boardstate"></p>
                 <p>key<input type="text" v-model="i.key"></p>
