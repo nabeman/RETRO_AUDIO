@@ -40,7 +40,7 @@ const app = createApp({
                 let endTime = performance.now(); //演奏時間
                 this.audioarray.push(new AudioObject(endTime - this.time, this.downScale, this.nowkey));
                 console.log(this.audioarray);
-                this.ShowAudioObject();
+                //this.ShowAudioObject();
                 this.len = this.audioarray.length; 
                 this.StopAudio();
             }else if(this.isPlaying && this.nowkey == event.key){
@@ -56,7 +56,7 @@ const app = createApp({
                 let endTime = performance.now() - this.time; //演奏時間
                 this.audioarray.push(new AudioObject(endTime, this.downScale, this.nowkey));
                 console.log(this.audioarray);
-                this.ShowAudioObject();
+                //this.ShowAudioObject();
                 this.len = this.audioarray.length;
                 audioUI("A4", endTime / 60);
                 this.StopAudio();

@@ -27,14 +27,14 @@
             <div v-html="allkeyinput">
 
             </div>
-            <!-- <div v-for="(i, index) in audionewarray" :key="index">
+            <div v-for="(i, index) in audioarray" :key="index">
                 <p>time<input type="number" v-model="i.time"></p>
                 <p>state<input type="text" v-model="i.boardstate"></p>
                 <p>key<input type="text" v-model="i.key"></p>
-            </div> -->
-            <div v-for="(i, index) in lenarray" :key="index">
-                <p><input type="number" v-model="i"></p>
             </div>
+            <!-- <div v-for="(i, index) in lenarray" :key="index">
+                <p><input type="number" v-model="i"></p>
+            </div> -->
         </div>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script src="audioobject.js"></script>
