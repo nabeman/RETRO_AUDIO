@@ -17,8 +17,7 @@ const app = createApp({
             audioarray: [],
             index: 0,
             len : 0,
-            allkeyinput: "",
-            lenarray: [], //test
+            aaa: 0,
         }
     },
     methods:{
@@ -36,31 +35,58 @@ const app = createApp({
         },
         keydown_audio(event){ //keyが押されたときに実行 音を鳴らす
             if(event.key == " ") this.downScale = !this.downScale;
-            if(this.isPlaying && this.nowkey != event.key){ //事前に演奏している音の処理
-                let endTime = performance.now(); //演奏時間
+            if(this.isPlaying && this.nowkey != event.key){ 
+                //事前に演奏している音の処理
+                //演奏時間の計測
+                let endTime = performance.now(); 
                 let time = Math.floor((endTime - this.time)*10)/10;
+
+                //演奏記録を登録
                 this.audioarray.push(new AudioObject(time, this.downScale, this.nowkey));
-                console.log(this.audioarray);
-                //this.ShowAudioObject();
-                this.len = this.audioarray.length; 
+                this.len = this.audioarray.length;
+
+                //事前の演奏を停止
                 this.StopAudio();
+
+                //現在keyでの演奏開始
+                scale = give_scale(event.key, this.downScale);
+                this.PlayAudio(scale); //音を鳴らす
+                this.nowkey = event.key;
+                this.time = performance.now();
+                return;
             }else if(this.isPlaying && this.nowkey == event.key){
+                //キーの連続入力時の処理
                 return;
             }
+
+            //空の演奏記録を登録
+            let time = Math.floor((performance.now() - this.time)*10)/10;
+            this.audioarray.push(new AudioObject(time, false, " "));
+
+            //現在keyでの演奏開始
             scale = give_scale(event.key, this.downScale);
             this.PlayAudio(scale); //音を鳴らす
             this.nowkey = event.key;
             this.time = performance.now();
         },
         keyup_audio(event){
-            if(this.isPlaying && event.key == this.nowkey){ //keyが離れた時に実行
-                let endTime = Math.floor((performance.now() - this.time)*10)/10; //演奏時間
+            if(this.isPlaying && event.key == this.nowkey){ 
+                //keyが離れた時に実行
+                //演奏時間の計測
+                let endTime = Math.floor((performance.now() - this.time)*10)/10;
+
+                //演奏記録を登録
                 this.audioarray.push(new AudioObject(endTime, this.downScale, this.nowkey));
-                console.log(this.audioarray);
-                //this.ShowAudioObject();
                 this.len = this.audioarray.length;
+
+                //バーの長さ演奏時間を表示(プロトタイプ)
                 audioUI("A4", endTime / 60);
+
+                //演奏を停止
                 this.StopAudio();
+
+                //空の演奏記録の計測開始
+                this.time = performance.now();
             }
         },
         toggle_audio(){
@@ -69,8 +95,13 @@ const app = createApp({
                 document.addEventListener("keyup", this.keyup_audio, false);
                 this.prep = true;
                 this.button_state = "stop";
+
+                //格納された演奏履歴の初期化
                 this.audioarray = [];
                 this.index = 0;
+
+                //計測開始
+                this.time = performance.now();
                 console.log("準備が完了しました")
             }else{
                 document.removeEventListener("keydown", this.keydown_audio, false);
@@ -93,7 +124,7 @@ const app = createApp({
                 if(i < l-1){
                     PB();
                 }
-            },this.audioarray[i].time+50);
+            },this.audioarray[i].time);
             // if(this.index == audioarray.length) this.index = 0;
         },
         Reset(){
@@ -101,7 +132,27 @@ const app = createApp({
             console.log(this.audioarray.length)
             this.index = 0;
         },
+/////////////////////////reactive playaudio
+        plusscale(){ 
+            console.log("plus scale");
+            this.aaa = this.aaa + 100;
+        },
+        minusscale(){
+            console.log("minus scale");
+            if(this.aaa <= 0) return;
+            this.aaa = this.aaa - 100;
+        }
     },
+    computed:{
+        // onbutton(){
+        //     console.log("Start")
+        //     if(this.isPlaying == true){
+        //         this.StopAudio();
+        //     }
+        //     this.PlayAudio(this.aaa);
+        // },
+    /////////////////////////////
+    }
 })
 
 app.mount('#main_div')
