@@ -19,6 +19,7 @@ const app = createApp({
             len : 0,
             allkeyinput: "",
             lenarray: [], //test
+            aaa: 0,
         }
     },
     methods:{
@@ -101,7 +102,27 @@ const app = createApp({
             console.log(this.audioarray.length)
             this.index = 0;
         },
+/////////////////////////reactive playaudio
+        plusscale(){ 
+            console.log("plus scale");
+            this.aaa = this.aaa + 100;
+        },
+        minusscale(){
+            console.log("minus scale");
+            if(this.aaa <= 0) return;
+            this.aaa = this.aaa - 100;
+        }
     },
+    computed:{
+        onbutton(){
+            console.log("Start")
+            if(this.isPlaying == true){
+                this.StopAudio();
+            }
+            this.PlayAudio(this.aaa);
+        },
+    /////////////////////////////
+    }
 })
 
 app.mount('#main_div')

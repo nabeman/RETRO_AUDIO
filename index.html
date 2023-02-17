@@ -26,8 +26,10 @@
                     C4
                 </div>
             </div>
-            <div v-html="allkeyinput">
-
+            <div>
+                <button @click="onbutton">Play</button>
+                <button @click="plusscale">plus</button>
+                <button @click="minusscale">minus</button>
             </div>
             <div v-for="(i, index) in audioarray" :key="index">
                 <h3>{{ index }}</h3>
