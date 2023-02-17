@@ -17,8 +17,6 @@ const app = createApp({
             audioarray: [],
             index: 0,
             len : 0,
-            allkeyinput: "",
-            lenarray: [], //test
             aaa: 0,
         }
     },
