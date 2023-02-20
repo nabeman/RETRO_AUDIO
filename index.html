@@ -27,9 +27,7 @@
                 </div>
             </div>
             <div>
-                <button @click="onbutton">Play</button>
-                <button @click="plusscale">plus</button>
-                <button @click="minusscale">minus</button>
+                <button @click="toggle_duty">{{ duty_state }}</button>
             </div>
             <div v-for="(i, index) in audioarray" :key="index">
                 <h3>{{ index }}</h3>
