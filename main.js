@@ -1,6 +1,6 @@
 const { createApp } = Vue;
 
-const VOLUME = 0.3
+const VOLUME = 0.2
 const ctx = new AudioContext();
 const gainNode = ctx.createGain(); //音量調節
 const delayNode = ctx.createDelay(); //ディレイノード
@@ -12,21 +12,27 @@ invNode.gain.value = -VOLUME;
 const app = createApp({
     data(){
         return{
+            //duty
             isDuty: false,
             duty_state: 1.0,
-            isPlaying: false, //演奏中の判定
+
+            //オシレーター
             oscillator: null, 
             dutyoscillator: null,
+
+            //演奏ステータス
+            isPlaying: false, //演奏中の判定
             downScale: false, //オクターブ調整
             prep: false, //key bool
             nowkey: "",
             button_state: "start", //button text
             time: 0,
+
+            //AudioObject
             audioarray: [],
             dutyaudioarray: [],
             index: 0,
             len : 0,
-            testarray: [],
         }
     },
     methods:{
@@ -181,11 +187,6 @@ const app = createApp({
                 }
                 }
             )();
-        },
-        Reset(){
-            this.allkeyinput = "";
-            console.log(this.audioarray.length)
-            this.index = 0;
         },
         toggle_duty(){
             if(!this.isDuty){
