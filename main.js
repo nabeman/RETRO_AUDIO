@@ -26,7 +26,7 @@ const app = createApp({
             dutyaudioarray: [],
             index: 0,
             len : 0,
-            aaa: 0,
+            testarray: [],
         }
     },
     methods:{
@@ -172,22 +172,31 @@ const app = createApp({
                 console.log("演奏準備を取り消しました")
             }
         },
+        // PlayBack(){
+        //     let i = this.index;
+        //     let l = this.len;
+        //     this.index++;
+        //     let SA = this.StopAudio;
+        //     let PB = this.PlayBack;
+        //     let scale = give_scale(this.audioarray[i].key, this.audioarray[i].boardstate);
+        //     this.PlayAudio(scale)
+        //     setTimeout(function(){
+        //         SA();
+        //         if(i < l-1){
+        //             PB();
+        //         }
+        //     },this.audioarray[i].time);
+        //     // if(this.index == audioarray.length) this.index = 0;
+        // },
         PlayBack(){
-            let i = this.index;
-            let l = this.len;
-            this.index++;
-            let SA = this.StopAudio;
-            let PB = this.PlayBack;
-            let scale = give_scale(this.audioarray[i].key, this.audioarray[i].boardstate);
-            this.PlayAudio(scale)
-            this.PlayDutyAudio(scale);
-            setTimeout(function(){
-                SA();
-                if(i < l-1){
-                    PB();
+            (async () => {
+                for await(obj of this.audioarray){
+                    let scale = give_scale(obj.key, obj.boardstate);
+                    let ms = obj.time;
+                    await this.test_async(scale, ms);
                 }
-            },this.audioarray[i].time);
-            // if(this.index == audioarray.length) this.index = 0;
+                }
+            )();
         },
         Reset(){
             this.allkeyinput = "";
@@ -204,15 +213,30 @@ const app = createApp({
             }
         },
 /////////////////////////reactive playaudio
-        plusscale(){ 
-            console.log("plus scale");
-            this.aaa = this.aaa + 100;
+        test_async(scale, ms){
+            return new Promise((resolve) => {
+                this.PlayAudio(scale);
+                setTimeout(() => {
+                    resolve();
+                }, ms);
+            }).then(() => {
+                this.StopAudio();
+            });
         },
-        minusscale(){
-            console.log("minus scale");
-            if(this.aaa <= 0) return;
-            this.aaa = this.aaa - 100;
-        }
+        make_testarray(){
+            this.testarray.push(new AudioObject(1000, false, "e"));
+            this.testarray.push(new AudioObject(2000, false, "r"));
+            this.testarray.push(new AudioObject(3000, false, "t"));
+
+            (async () => {
+                for await(obj of this.testarray){
+                    let scale = give_scale(obj.key, obj.boardstate);
+                    let ms = obj.time;
+                    await this.test_async(scale, ms);
+                }
+                }
+            )();
+        },
     },
     computed:{
         // onbutton(){
