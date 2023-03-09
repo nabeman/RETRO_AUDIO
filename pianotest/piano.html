@@ -6,9 +6,11 @@
         <link rel="stylesheet" href="piano.css" /> 
     </head>
     <body>
-        <div id="piano">
-            <white-key @push-white-key="PushWhite" pianokey="C4"></white-key>
+        <div id="piano" class="kenban">
+            <white-key @push-white-key="PushWhite" pianokey="C4" ></white-key>
+            <black-key @push-black-key="PushBlack" pianokey="C#4" class="aa"></black-key>
             <white-key></white-key>
+            <black-key class="aaa"></black-key>
             <white-key></white-key>
         </div>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
