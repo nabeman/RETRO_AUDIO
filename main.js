@@ -48,7 +48,12 @@ const app = createApp({
             this.dutyoscillator = ctx.createOscillator();
             this.dutyoscillator.type = "sawtooth";
             this.dutyoscillator.frequency.setValueAtTime(scale, ctx.currentTime);
-            delayNode.delayTime.value = (1.0 - dutycycle) / scale;
+            if(scale == 0){
+                delayNode.delayTime.value = 0;
+            }else{
+                
+                delayNode.delayTime.value = (1.0 - dutycycle) / scale;
+            }
             this.dutyoscillator.connect(gainNode);
             this.dutyoscillator.connect(invNode);
             invNode.connect(delayNode);
@@ -200,6 +205,7 @@ const app = createApp({
         play_async(scale, ms){
             return new Promise((resolve) => {
                 this.PlayAudio(scale);
+                this.PlayDutyAudio(scale);
                 setTimeout(() => {
                     resolve();
                 }, ms);
