@@ -1,3 +1,5 @@
+
+
 class AudioObject{
     time;
     boardstate; //オクターブ情報

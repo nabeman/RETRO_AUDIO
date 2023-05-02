@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../practice"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "RETRO_AUDIO"
+	}
+}
