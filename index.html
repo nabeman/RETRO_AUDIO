@@ -17,28 +17,12 @@
             <p>下の入力欄から再生する音や長さ、高さを編集できます。</p>
             <button @click="toggle_audio">{{ button_state }}</button>
             <button @click="PlayBack">PlayBack</button>
-            <div class="audio_ui">
-                <div id="A4" class="pianokey">
-                    A4
-                </div>
-                <div id="C4" class="pianokey">
-                    C4
-                </div>
-            </div>
             <div>
                 <button @click="toggle_duty">{{ dutystate }}</button>
             </div>
-            <!-- <div v-for="(i, index) in audioarray" :key="index">
-                <h3>{{ index }}</h3>
-                <p>time<input type="number" v-model="i.time"></p>
-                <p>state<input type="text" v-model="i.boardstate"></p>
-                <p>key<input type="text" v-model="i.key"></p>
-            </div> -->
         </div>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         <script src="oscillator.js"></script>
-        <script src="audioobject.js"></script>
-        <script src="audioUi.js"></script>
         <script src="main.js"></script>
         <script src="keyaudio.js"></script>
     </body>
