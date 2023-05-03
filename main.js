@@ -1,3 +1,6 @@
+//value[0]は音階のHz
+//value[1]は音階の文字列
+
 const { createApp } = Vue;
 
 const app = createApp({
@@ -41,35 +44,26 @@ const app = createApp({
             }
 
             //演奏処理
-            if(value[1] != this.nowkey){
-                if(this.oscillators[this.nowkey + this.dutystate]?.isPlaying){
-                    this.oscillators[this.nowkey + this.dutystate].stopAudio();
+            if((value[1] + this.dutystate) != this.nowkey){
+                if(this.oscillators[this.nowkey]?.isPlaying){
+                    //演奏記録の登録
+                    this.registerAudio();
+
+                    this.oscillators[this.nowkey].stopAudio();
+                }else{
+                    this.registerAudio(true);
                 }
             }
             else if(this.oscillators[value[1] + this.dutystate].isPlaying){ 
+                console.log("あ")
                 return
+            }else{
+                this.registerAudio(true);
             }
-
-            // //空の演奏記録を登録
-            // let time = Math.floor((performance.now() - this.time)*10)/10;
-            // this.dutyaudioarray.push(new AudioObject(time, false, " "));
-
-            // //現在keyでの演奏開始
-            // this.nowkey = event.key;
-            // this.time = performance.now();
-
-            // //演奏時間の計測
-            // let endTime = performance.now(); 
-            // let time = Math.floor((endTime - this.time)*10)/10;
             
-            // //演奏記録を登録
-            // this.audioarray.push(new AudioObject(time, this.downScale, this.nowkey));
-            // this.len = this.audioarray.length;
-            
-            // //現在keyでの演奏開始
-            // this.nowkey = event.key;
-            // this.time = performance.now();
-            this.nowkey = value[1];
+            //現在keyでの演奏開始
+            this.nowkey = value[1] + this.dutystate;
+            this.time = performance.now();
             this.oscillators[value[1] + this.dutystate].playAudio();
             return;            
         },
@@ -77,31 +71,15 @@ const app = createApp({
             let value = give_scale(event.key, this.downScale)
 
             if(this.oscillators[value[1] + this.dutystate].isPlaying){
+
+                //演奏記録の登録
+                this.registerAudio();
+
                 this.oscillators[value[1] + this.dutystate].stopAudio();
+
+                //空の演奏記録の計測開始
+                this.time = performance.now();
             }
-            
-            // if(this.isPlaying && event.key == this.nowkey){ 
-            //     //keyが離れた時に実行
-            //     //演奏時間の計測
-            //     let endTime = Math.floor((performance.now() - this.time)*10)/10;
-
-            //     //演奏記録を登録
-            //     if(!this.isDuty){
-            //         this.audioarray.push(new AudioObject(endTime, this.downScale, this.nowkey));
-            //     }else{
-            //         this.dutyaudioarray.push(new AudioObject(endTime, this.downScale, this.nowkey));
-            //     }
-            //     this.len = this.audioarray.length;
-
-            //     //バーの長さ演奏時間を表示(プロトタイプ)
-            //     audioUI("A4", endTime / 60);
-
-            //     //演奏を停止
-            //     this.StopAudio();
-
-            //     //空の演奏記録の計測開始
-            //     this.time = performance.now();
-            // }
         },
         toggle_audio(){
             if(!this.prep){
@@ -110,22 +88,30 @@ const app = createApp({
                 this.prep = true;
                 this.button_state = "stop";
 
-                //格納された演奏履歴の初期化
-                this.audioarray = [];
-                this.dutyaudioarray = [];
-                this.index = 0;
-
                 //計測開始
                 this.time = performance.now();
+
                 console.log("準備が完了しました")
             }else{
                 document.removeEventListener("keydown", this.keydown_audio, false);
                 document.removeEventListener("keyup", this.keyup_audio, false);
                 this.prep = false;
                 this.button_state = "start";
+
                 console.log("演奏準備を取り消しました")
             }
         },
+        registerAudio(emp = false){
+            let regkey = this.nowkey + this.dutystate;
+            if(emp) regkey = "";
+
+            //演奏時間の計測
+            let time = Math.floor((performance.now() - this.time)*10) / 10;                
+
+            //演奏記録を登録
+            this.audioarray.push([regkey, time])                
+        }
+        ,
         PlayBack(){
             (async () => {
                 for await(obj of this.audioarray){
@@ -137,6 +123,8 @@ const app = createApp({
             )();
         },
         toggle_duty(){
+            this.registerAudio(true);
+
             if(!this.isDuty){ 
                 this.dutystate = "低";
                 this.isDuty = true;
@@ -144,6 +132,8 @@ const app = createApp({
                 this.dutystate = "高";
                 this.isDuty = false;
             }
+
+            this.time = performance.now();
         },
         play_async(scale, ms){
             return new Promise((resolve) => {
