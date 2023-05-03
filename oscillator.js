@@ -52,7 +52,7 @@ class Oscillator{
     }
 
     stopAudio(){
-        this.oscillator?.stop();
+        this.oscillator?.stop(ctx.currentTime);
         this.isPlaying = false;
         this.init(this.scale);
     }

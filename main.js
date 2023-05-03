@@ -12,7 +12,7 @@ const app = createApp({
             downScale: false,
             button_state: "start", //button text
             time: 0,
-            dutystate: 1.0,
+            dutystate: "高",
             isDuty: false,
 
             //AudioObject
@@ -23,20 +23,30 @@ const app = createApp({
         }
     },
     methods:{
-        keydown_audio(event){ //keyが押されたときに実行 音を鳴らす
+        keydown_audio(event){ 
+            //keyが押されたときに実行 音を鳴らす
+
+            //音階と名前を取り出す
             let value = give_scale(event.key, this.downScale)
 
             //oscilatorが登録されているかチェック
-            if(!(value[1] in this.oscillators)){
-                this.oscillators[value[1]] = new Oscillator(value[0], this.isDuty);
+            if(!((value[1] + this.dutystate) in this.oscillators)){
+                this.oscillators[value[1] + this.dutystate] = new Oscillator(value[0], this.isDuty);
             }
 
+            //オクターブを1段階変更する
             if(event.key == " ") {
                 this.downScale = !this.downScale;
                 return
             }
 
-            if(this.oscillators[value[1]].isPlaying){ 
+            //演奏処理
+            if(value[1] != this.nowkey){
+                if(this.oscillators[this.nowkey + this.dutystate]?.isPlaying){
+                    this.oscillators[this.nowkey + this.dutystate].stopAudio();
+                }
+            }
+            else if(this.oscillators[value[1] + this.dutystate].isPlaying){ 
                 return
             }
 
@@ -59,15 +69,15 @@ const app = createApp({
             // //現在keyでの演奏開始
             // this.nowkey = event.key;
             // this.time = performance.now();
-
-            this.oscillators[value[1]].playAudio();
+            this.nowkey = value[1];
+            this.oscillators[value[1] + this.dutystate].playAudio();
             return;            
         },
         keyup_audio(event){
             let value = give_scale(event.key, this.downScale)
 
-            if(this.oscillators[value[1]].isPlaying){
-                this.oscillators[value[1]].stopAudio();
+            if(this.oscillators[value[1] + this.dutystate].isPlaying){
+                this.oscillators[value[1] + this.dutystate].stopAudio();
             }
             
             // if(this.isPlaying && event.key == this.nowkey){ 
@@ -128,10 +138,10 @@ const app = createApp({
         },
         toggle_duty(){
             if(!this.isDuty){ 
-                this.dutystate = 0.5;
+                this.dutystate = "低";
                 this.isDuty = true;
             }else{
-                this.dutystate = 1.0;
+                this.dutystate = "高";
                 this.isDuty = false;
             }
         },
