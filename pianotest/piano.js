@@ -8,7 +8,10 @@ const piano = createApp({
     },
     methods:{
         PushWhite(key){
-            console.log(`${key}が押されました`)
+            console.log(`${key}が押されました`);
+        },
+        PushBlack(key){
+            console.log(`${key}が押されました`);
         }
     }
 })
@@ -35,5 +38,30 @@ piano.component('WhiteKey', {
         }
     }
 })
+
+piano.component('BlackKey',{
+    data(){
+        return{
+            keyis: this.pianokey,
+        }
+    },
+    props: [
+        'pianokey',
+    ],
+    template:`
+    <div class="blackkey" @click="EmitKey">
+            
+    </div>
+    `,
+    methods:{
+        EmitKey(){
+            this.$emit('PushBlackKey', this.pianokey);
+            console.log(`プロパティは${this.pianokey}です`)
+        }
+    }
+
+}
+
+)
 
 piano.mount('#piano')
