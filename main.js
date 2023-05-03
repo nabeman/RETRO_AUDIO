@@ -7,7 +7,7 @@ const app = createApp({
     data(){
         return{
             //オシレーター
-            oscillators: {},
+            oscillators: {"高": new Oscillator(0, false), "低": new Oscillator(0, true)},
 
             //演奏ステータス
             prep: false, //key bool
@@ -101,29 +101,8 @@ const app = createApp({
                 console.log("演奏準備を取り消しました")
             }
         },
-        registerAudio(emp = false){
-            let regkey = this.nowkey + this.dutystate;
-            if(emp) regkey = "";
-
-            //演奏時間の計測
-            let time = Math.floor((performance.now() - this.time)*10) / 10;                
-
-            //演奏記録を登録
-            this.audioarray.push([regkey, time])                
-        }
-        ,
-        PlayBack(){
-            (async () => {
-                for await(obj of this.audioarray){
-                    let scale = give_scale(obj.key, obj.boardstate);
-                    let ms = obj.time;
-                    await this.play_async(scale, ms);
-                }
-                }
-            )();
-        },
         toggle_duty(){
-            this.registerAudio(true);
+            if(this.prep) this.registerAudio(true);
 
             if(!this.isDuty){ 
                 this.dutystate = "低";
@@ -133,17 +112,36 @@ const app = createApp({
                 this.isDuty = false;
             }
 
-            this.time = performance.now();
+            if(this.prep) this.time = performance.now();
         },
-        play_async(scale, ms){
+        registerAudio(emp = false){
+            let regkey = this.nowkey;
+            if(emp) regkey = this.dutystate;
+
+            //演奏時間の計測
+            let time = Math.floor((performance.now() - this.time)*10) / 10;                
+
+            //演奏記録を登録
+            this.audioarray.push([time, regkey])                
+        },
+        PlayBack(){
+            (async () => {
+                for await(obj of this.audioarray){
+                    let key = obj[1]
+                    let ms = obj[0];
+                    await this.play_async(key, ms);
+                }
+                }
+            )();
+        },
+        play_async(key, ms){
             return new Promise((resolve) => {
-                this.PlayAudio(scale);
-                this.PlayDutyAudio(scale);
+                this.oscillators[key].playAudio();
                 setTimeout(() => {
                     resolve();
                 }, ms);
             }).then(() => {
-                this.StopAudio();
+                this.oscillators[key].stopAudio();
             });
         },
     }
