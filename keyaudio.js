@@ -63,6 +63,12 @@ function give_scale(key, downScale){
                 return [2093, "ド7"]
             case "h":
                 return [2217.4, "ド7#"]
+            case "n":
+                return [2349.3, "レ7"]
+            case "j":
+                return [2489, "レ7#"]
+            case "m":
+                return [2637, "ミ7"]
             case " ":
                 return [0, ""];
             default:
